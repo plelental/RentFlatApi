@@ -1,0 +1,52 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using RentFlatApi.Data.Model;
+
+namespace RentFlatApi.Data.Repository
+{
+    public class FlatRepository : IRepository<Flat>
+    {
+        private readonly RentContext _rentContext;
+
+        public FlatRepository(RentContext rentContext)
+        {
+            _rentContext = rentContext;
+        }
+
+        public async Task<IEnumerable<Flat>> GetAll()
+        {
+            return await _rentContext.Flats.ToListAsync();
+        }
+
+        public async Task<Flat> GetById(long id)
+        {
+            return await _rentContext.Flats
+                .Where(flat => flat.Id == id)
+                .SingleOrDefaultAsync();
+        }
+
+        public async Task Add(Flat flat)
+        {
+            await _rentContext.Flats.AddAsync(flat);
+            await _rentContext.SaveChangesAsync();
+        }
+
+        public Task Update(Flat entity)
+        {
+            //TODO Add AutoMapper
+            throw new System.NotImplementedException();
+        }
+
+        public async Task Delete(long id)
+        {
+            var flatToDelete = await _rentContext.Flats.SingleOrDefaultAsync(flat => flat.Id == id);
+            if (flatToDelete != null)
+            {
+                _rentContext.Flats.Remove(flatToDelete);
+                await _rentContext.SaveChangesAsync();
+            }
+        }
+    }
+}
