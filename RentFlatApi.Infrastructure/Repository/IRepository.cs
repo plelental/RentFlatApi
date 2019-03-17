@@ -1,8 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace RentFlatApi.Data.Repository
+namespace RentFlatApi.Infrastructure.Repository
 {
     public interface IRepository<TEntity>
     {

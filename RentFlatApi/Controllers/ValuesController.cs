@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using RentFlatApi.Infrastructure.Model;
+using RentFlatApi.Infrastructure.Repository;
 
 namespace RentFlatApi.Controllers
 {
@@ -10,6 +12,13 @@ namespace RentFlatApi.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        private readonly IFlatRepository _flatRepository;
+
+        public ValuesController(IFlatRepository flatRepository)
+        {
+            _flatRepository = flatRepository;
+        }
+
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
@@ -40,6 +49,18 @@ namespace RentFlatApi.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+        }
+
+        [HttpPost("addFlat")]
+        public async Task<IActionResult> AddFlat([FromBody] Flat flat)
+        {
+            if (flat == null)
+            {
+                return BadRequest();
+            }
+
+            await _flatRepository.Add(flat);
+            return Created("AddFlat", flat);
         }
     }
 }

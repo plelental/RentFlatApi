@@ -2,11 +2,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using RentFlatApi.Data.Model;
+using RentFlatApi.Infrastructure.Context;
+using RentFlatApi.Infrastructure.Model;
 
-namespace RentFlatApi.Data.Repository
+namespace RentFlatApi.Infrastructure.Repository
 {
-    public class FlatRepository : IRepository<Flat>
+    public class FlatRepository : IFlatRepository
     {
         private readonly RentContext _rentContext;
 

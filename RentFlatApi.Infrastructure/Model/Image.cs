@@ -1,12 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace RentFlatApi.Data.Model
+namespace RentFlatApi.Infrastructure.Model
 {
-    public class Image
+    public class Image : Entity
     {
-        [Key] 
-        public long Id { get; set; }
-
         public byte[] Data { get; set; }
 
         public Flat Flat { get; set; }

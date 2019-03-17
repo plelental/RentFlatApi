@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentFlatApi", "RentFlatApi\RentFlatApi.csproj", "{D4B982CB-37EB-4A5C-BCA7-146FA92BA082}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentFlatApi.Data", "RentFlatApi.Data\RentFlatApi.Data.csproj", "{36163B68-499F-4962-8728-3DC221B11E9D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentFlatApi.Infrastructure", "RentFlatApi.Infrastructure\RentFlatApi.Infrastructure.csproj", "{36163B68-499F-4962-8728-3DC221B11E9D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

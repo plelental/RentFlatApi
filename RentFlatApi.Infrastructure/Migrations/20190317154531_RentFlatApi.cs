@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace RentFlatApi.Data.Migrations
+namespace RentFlatApi.Infrastructure.Migrations
 {
-    public partial class RentFlatDb : Migration
+    public partial class RentFlatApi : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -28,27 +29,6 @@ namespace RentFlatApi.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Houses",
-                columns: table => new
-                {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Price = table.Column<decimal>(nullable: false),
-                    City = table.Column<string>(nullable: true),
-                    District = table.Column<string>(nullable: true),
-                    Street = table.Column<string>(nullable: true),
-                    ZipCode = table.Column<string>(nullable: true),
-                    NumberOfRooms = table.Column<int>(nullable: false),
-                    SquareMeters = table.Column<int>(nullable: false),
-                    FieldMeters = table.Column<int>(nullable: false),
-                    NumberOfFloors = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Houses", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -63,18 +43,43 @@ namespace RentFlatApi.Data.Migrations
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "Image",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Data = table.Column<byte[]>(nullable: true),
+                    FlatId = table.Column<long>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Image", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Image_Flats_FlatId",
+                        column: x => x.FlatId,
+                        principalTable: "Flats",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Image_FlatId",
+                table: "Image",
+                column: "FlatId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Flats");
-
-            migrationBuilder.DropTable(
-                name: "Houses");
+                name: "Image");
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Flats");
         }
     }
 }
