@@ -57,7 +57,7 @@ namespace RentFlatApi.Infrastructure.Migrations
 
                     b.HasIndex("FlatId");
 
-                    b.ToTable("Image");
+                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("RentFlatApi.Infrastructure.Model.User", b =>

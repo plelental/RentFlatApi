@@ -13,9 +13,8 @@ namespace RentFlatApi.Infrastructure.Context
         {
             optionsBuilder.UseSqlite("DataSource=dbo.RentFlat.db");
             SQLitePCL.raw.SetProvider(new SQLitePCL.SQLite3Provider_e_sqlite3());
-
         }
-        
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Flat>()

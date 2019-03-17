@@ -7,6 +7,10 @@ using RentFlatApi.Infrastructure.Model;
 
 namespace RentFlatApi.Infrastructure.Repository
 {
+    public interface IFlatRepository : IRepository<Flat>
+    {
+    }
+
     public class FlatRepository : IFlatRepository
     {
         private readonly RentContext _rentContext;

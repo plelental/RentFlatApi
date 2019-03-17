@@ -13,10 +13,6 @@ namespace RentFlatApi
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            using (var client = new RentContext())
-            {
-                client.Database.EnsureCreated();
-            }
         }
 
         public IConfiguration Configuration { get; }
@@ -40,10 +36,9 @@ namespace RentFlatApi
             {
                 app.UseHsts();
             }
+
             app.UseHttpsRedirection();
             app.UseMvc();
         }
-        
-        
     }
 }
