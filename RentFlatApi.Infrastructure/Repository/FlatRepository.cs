@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -34,6 +35,7 @@ namespace RentFlatApi.Infrastructure.Repository
 
         public async Task Add(Flat flat)
         {
+            flat.DateOfCreation = DateTime.Now;
             await _rentContext.Flats.AddAsync(flat);
             await _rentContext.SaveChangesAsync();
         }

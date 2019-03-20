@@ -1,6 +1,6 @@
 namespace RentFlatApi.Core.Model
 {
-    public class Flat
+    public class FlatDto
     {
         public decimal Price { get; set; }
         public string City { get; set; }
