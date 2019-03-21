@@ -1,35 +1,31 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using RentFlatApi.Infrastructure.Model;
-using RentFlatApi.Infrastructure.Repository;
-
+using RentFlatApi.Contract.FlatDto;
 namespace RentFlatApi.Core.Services
 {
-    public class IFlatService : IService<Flat>
+    public interface IFlatService : IService<FlatDto>
     {
-        private readonly IFlatRepository _flatRepository;
+          
+    }
 
-        public IFlatService(IFlatRepository flatRepository)
-        {
-            _flatRepository = flatRepository;
-        }
-
-        public Task<IEnumerable<Flat>> GetAll()
+    public class FlatService : IFlatService
+    {
+        public Task<IEnumerable<FlatDto>> GetAll()
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<Flat> GetById(long id)
+        public Task<FlatDto> GetById(long id)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task Add(Flat flat)
+        public Task Add(FlatDto flat)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task Update(Flat entity)
+        public Task Update(FlatDto entity)
         {
             throw new System.NotImplementedException();
         }

@@ -1,4 +1,4 @@
-namespace RentFlatApi.Core.Model
+namespace RentFlatApi.Contract.FlatDto
 {
     public class FlatDto
     {

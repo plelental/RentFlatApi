@@ -9,6 +9,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\RentFlatApi.Contract\RentFlatApi.Contract.csproj" />
       <ProjectReference Include="..\RentFlatApi.Infrastructure\RentFlatApi.Infrastructure.csproj" />
     </ItemGroup>
 
