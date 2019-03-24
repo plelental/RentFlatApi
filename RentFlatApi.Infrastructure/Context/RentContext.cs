@@ -5,14 +5,17 @@ namespace RentFlatApi.Infrastructure.Context
 {
     public class RentContext : DbContext
     {
-        public DbSet<Flat> Flats { get; set; }
-        public DbSet<User> Users { get; set; }
-        public DbSet<Image> Images { get; set; }
+        public DbSet<Flat> Flat { get; set; }
+        public DbSet<User> User { get; set; }
+        public DbSet<Image> Image { get; set; }
+
+        public RentContext(DbContextOptions options) : base(options)
+        {
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("DataSource=dbo.RentFlat.db");
-            SQLitePCL.raw.SetProvider(new SQLitePCL.SQLite3Provider_e_sqlite3());
+            optionsBuilder.UseSqlite("DataSource=dbo.RentFlatApi.db");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

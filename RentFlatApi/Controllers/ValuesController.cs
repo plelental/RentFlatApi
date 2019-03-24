@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Internal;
 using Microsoft.AspNetCore.Mvc;
+using RentFlatApi.Contract.FlatDto;
+using RentFlatApi.Core.Services;
 using RentFlatApi.Infrastructure.Model;
 using RentFlatApi.Infrastructure.Repository;
 
@@ -12,11 +15,11 @@ namespace RentFlatApi.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        private readonly IFlatRepository _flatRepository;
+        private readonly IFlatService _flatService;
 
-        public ValuesController(IFlatRepository flatRepository)
+        public ValuesController(IFlatService flatService)
         {
-            _flatRepository = flatRepository;
+            _flatService = flatService;
         }
 
         // GET api/values
@@ -52,15 +55,22 @@ namespace RentFlatApi.Controllers
         }
 
         [HttpPost("addFlat")]
-        public async Task<IActionResult> AddFlat([FromBody] Flat flat)
+        public async Task<IActionResult> AddFlat([FromBody] FlatDto flat)
         {
             if (flat == null)
             {
                 return BadRequest();
             }
 
-            await _flatRepository.Add(flat);
+            await _flatService.Add(flat);
             return Created("AddFlat", flat);
+        }
+
+        [HttpGet("GetAllFlats")]
+        public async Task<IActionResult> GetAllFlats()
+        {
+            var flats = await _flatService.GetAll();
+            return Ok(flats);
         }
     }
 }

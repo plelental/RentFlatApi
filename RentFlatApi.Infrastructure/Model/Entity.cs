@@ -1,12 +1,14 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RentFlatApi.Infrastructure.Model
 {
     public abstract class Entity
     {
         [Key] 
-        public long Id { get; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long Id { get; set; }
         public DateTime DateOfCreation { get; set; }
         public DateTime DateOfUpdate { get; set; }
         

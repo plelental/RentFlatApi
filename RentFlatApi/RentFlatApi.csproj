@@ -15,6 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\RentFlatApi.Core\RentFlatApi.Core.csproj" />
       <ProjectReference Include="..\RentFlatApi.Infrastructure\RentFlatApi.Infrastructure.csproj" />
     </ItemGroup>
 
