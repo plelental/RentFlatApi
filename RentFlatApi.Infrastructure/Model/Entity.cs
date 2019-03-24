@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RentFlatApi.Infrastructure.Model
 {
-    public abstract class Entity
+    public class Entity
     {
         [Key] 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
