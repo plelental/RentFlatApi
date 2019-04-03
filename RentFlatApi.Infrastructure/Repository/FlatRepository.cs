@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Microsoft.EntityFrameworkCore;
 using RentFlatApi.Infrastructure.Context;
 using RentFlatApi.Infrastructure.Model;
@@ -23,7 +24,9 @@ namespace RentFlatApi.Infrastructure.Repository
 
         public async Task<IEnumerable<Flat>> GetAll()
         {
-            return await _rentContext.Flat.ToListAsync();
+            var flats = await _rentContext.Flat.ToListAsync();
+            flats.ForEach(x => { _rentContext.Entry(x).Reference(y => y.Address).LoadAsync(); });
+            return flats;
         }
 
         public async Task<Flat> GetById(long id)
@@ -36,6 +39,12 @@ namespace RentFlatApi.Infrastructure.Repository
         public async Task Add(Flat flat)
         {
             flat.DateOfCreation = DateTime.Now;
+            await _rentContext.Flat
+                .Include(x => x.Address)
+                .Include(x => x.Owner)
+                .Include(x => x.Tenant)
+                .Include(x => x.Images)
+                .FirstAsync();
             await _rentContext.Flat.AddAsync(flat);
             await _rentContext.SaveChangesAsync();
         }

@@ -35,7 +35,10 @@ namespace RentFlatApi.Core.Services
 
         public async Task Add(FlatDto flat)
         {
-            await _iFlatRepository.Add(_mapper.Map<Flat>(flat));
+            var flatEntity = _mapper.Map<Flat>(flat);
+            var addressEntity = _mapper.Map<Address>(flat);
+            flatEntity.Address = addressEntity;
+            await _iFlatRepository.Add(flatEntity);
         }
 
         public async Task Update(FlatDto entity)
