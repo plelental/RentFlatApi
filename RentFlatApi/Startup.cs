@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using RentFlatApi.Core.Services;
 using RentFlatApi.Infrastructure.Context;
 using RentFlatApi.Infrastructure.Repository;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace RentFlatApi
 {
@@ -31,6 +32,11 @@ namespace RentFlatApi
                 options.UseSqlite("DataSource=dbo.RentFlatApi.db",
                     builder => builder.MigrationsAssembly("RentFlatApi.Infrastructure")
                 ));
+            
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "FlatApi", Version = "v1" });
+            });
         }
 
 
@@ -45,9 +51,20 @@ namespace RentFlatApi
             {
                 app.UseHsts();
             }
+            
+          
 
             app.UseHttpsRedirection();
             app.UseMvc();
+            
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My FlatApi V1");
+                c.RoutePrefix = string.Empty;
+            });
+
         }
     }
 }

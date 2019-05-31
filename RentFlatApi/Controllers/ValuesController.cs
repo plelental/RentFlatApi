@@ -66,6 +66,17 @@ namespace RentFlatApi.Controllers
             return Created("AddFlat", flat);
         }
 
+        [HttpPost("updateFlat")]
+        public async Task<IActionResult> UpdateFlat([FromBody] FlatDto flat)
+        {
+            if (flat == null)
+            {
+                return BadRequest();
+            }
+
+            await _flatService.Update(flat);
+            return Created("Updated", flat);
+        }
         [HttpGet("GetAllFlats")]
         public async Task<IActionResult> GetAllFlats()
         {

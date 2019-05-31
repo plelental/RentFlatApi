@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.Logging;
 using RentFlatApi.Infrastructure.Context;
 using RentFlatApi.Infrastructure.Model;
 
@@ -31,9 +33,21 @@ namespace RentFlatApi.Infrastructure.Repository
 
         public async Task<Flat> GetById(long id)
         {
-            return await _rentContext.Flat
-                .Where(flat => flat.Id == id)
+            var flat = await _rentContext.Flat
+                .Where(x => x.Id == id)
                 .SingleOrDefaultAsync();
+           
+            try
+            {
+                await _rentContext.Entry(flat).Reference(x => x.Address).LoadAsync();
+            }
+            catch (ArgumentException e)
+            {
+               
+                return null;
+            }
+
+            return flat;
         }
 
         public async Task Add(Flat flat)
@@ -49,10 +63,62 @@ namespace RentFlatApi.Infrastructure.Repository
             await _rentContext.SaveChangesAsync();
         }
 
-        public Task Update(Flat entity)
+        public async Task Update(Flat entity)
         {
-            //TODO Add AutoMapper
-            throw new System.NotImplementedException();
+            var flatToUpdate = await _rentContext.Flat
+                .Include(x => x.Address)
+                .Include(x => x.Owner)
+                .Include(x => x.Tenant)
+                .SingleOrDefaultAsync(x => x.Id == entity.Id);
+
+            if (flatToUpdate != null)
+            {
+                flatToUpdate.Owner = entity.Owner;
+                flatToUpdate.Images = entity.Images;
+                flatToUpdate.Tenant = entity.Tenant;
+                flatToUpdate.Floor = entity.Floor;
+                flatToUpdate.Price = entity.Price;
+                flatToUpdate.District = flatToUpdate.District;
+                flatToUpdate.IsElevator = flatToUpdate.IsElevator;
+                flatToUpdate.SquareMeters = flatToUpdate.SquareMeters;
+                flatToUpdate.NumberOfRooms = flatToUpdate.SquareMeters;
+                flatToUpdate.DateOfUpdate = DateTime.Now;
+
+                if (entity.Address != null && flatToUpdate.Address != null)
+                {
+                    entity.Address.Id = flatToUpdate.Address.Id;
+                        _rentContext.Entry(flatToUpdate.Address).CurrentValues.SetValues(entity.Address);
+                    }
+    
+                    if (entity.Owner != null && flatToUpdate.Owner != null)
+                    {
+                        entity.Owner.Id = flatToUpdate.Owner.Id;
+                        _rentContext.Entry(flatToUpdate.Owner).CurrentValues.SetValues(entity.Owner);
+                    }
+    
+                    if (entity.Tenant != null && flatToUpdate.Tenant != null)
+                    {
+                        entity.Tenant.Id = flatToUpdate.Tenant.Id;
+                        _rentContext.Entry(flatToUpdate.Tenant).CurrentValues.SetValues(entity.Tenant);
+                    }
+    
+                    if (flatToUpdate.Images != null && entity.Images != null)
+                    {
+                        var imagesToUpdate = flatToUpdate.Images.ToList();
+                        foreach (var image in imagesToUpdate)
+                        {
+                            foreach (var entityImage in entity.Images)
+                            {
+                                if (image.Id == entityImage.Id)
+                                {
+                                    _rentContext.Entry(imagesToUpdate).CurrentValues.SetValues(entity.Images);
+                                }
+                            }
+                        }
+                    }
+    
+                    await _rentContext.SaveChangesAsync();
+            }
         }
 
         public async Task Delete(long id)
